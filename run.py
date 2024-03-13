@@ -41,6 +41,10 @@ for set_ in (strat_train_set, strat_test_set):
 housing_data.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
                   s=housing_data["population"]/100, label="population", figsize=(17,10),
                   c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True)
+plt.savefig('housing_plot.png')
+plt.close() 
+
+
 
 # Compute correlation matrix
 corr_matrix = housing_data.drop("ocean_proximity" , axis=1).corr()

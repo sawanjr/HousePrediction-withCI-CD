@@ -1,0 +1,29 @@
+name: california-housing-price
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'  # Specify the Python version you need
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Convert Jupyter notebook to Python script
+      run: |
+        jupyter nbconvert --to script HOUSE_PREDICTION.ipynb
+        
+    - name: Run Python script
+      run: |
+        python HOUSE_PREDICTION.py  # Replace 'HOUSE_PREDICTION.py' with the name of the converted Python script

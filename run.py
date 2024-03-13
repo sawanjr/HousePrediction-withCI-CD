@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas.plotting import scatter_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -26,6 +27,12 @@ train_set, test_set = train_test_split(housing_data, test_size=0.2, random_state
 housing_data["income_cat"] = pd.cut(housing_data["median_income"],
                                     bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
                                     labels=[1, 2, 3, 4, 5])
+%matplotlib inline 
+import matplotlib.pyplot as plt
+housing_data.hist(bins=50, figsize=(20,15)) # By setting bins=50, the dataset will be divided into 50 equal-width intervals, means whole graph has 50 tops
+plt.savefig('housing_plot01.png')
+plt.close()
+plt.show()
 
 # Perform stratified sampling
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
@@ -41,12 +48,29 @@ for set_ in (strat_train_set, strat_test_set):
 housing_data.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
                   s=housing_data["population"]/100, label="population", figsize=(17,10),
                   c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True)
-plt.savefig('housing_plot.png')
+plt.savefig('housing_plot02.png')
 plt.close()
 
 # Compute correlation matrix
 corr_matrix = housing_data.drop("ocean_proximity" , axis=1).corr()
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
+
+scatter_matrix(housing_data, figsize=(25, 25))
+plt.savefig('housing_plot03.png')
+plt.close()
+plt.show()
+
+#let’s just focus on a few promising
+#attributes that seem most correlated with the median housing value
+
+attributes = ["median_house_value", "median_income", "total_rooms",
+ "housing_median_age"]
+scatter_matrix(housing_data[attributes], figsize=(25, 25))
+plt.savefig('housing_plot04.png')
+plt.close()
+plt.show()
+
+
 
 # Prepare the data for machine learning algorithms
 housing = strat_train_set.drop("median_house_value", axis=1)

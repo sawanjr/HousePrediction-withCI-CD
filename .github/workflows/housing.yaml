@@ -14,13 +14,20 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.11'  
+        python-version: '3.11'  # Adjust the Python version as needed
+        
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
         
-
-        
-    - name: Run Python script
+    - name: Run Python script and save plots
       run: |
-        python run.py  
+        python run.py 
+        mkdir -p plots  # Create a directory to store plots
+        mv *.png plots/  # Move all PNG files to the 'plots' directory
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: housing-plots
+        path: plots/

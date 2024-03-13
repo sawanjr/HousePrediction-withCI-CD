@@ -27,7 +27,6 @@ train_set, test_set = train_test_split(housing_data, test_size=0.2, random_state
 housing_data["income_cat"] = pd.cut(housing_data["median_income"],
                                     bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
                                     labels=[1, 2, 3, 4, 5])
-%matplotlib inline 
 import matplotlib.pyplot as plt
 housing_data.hist(bins=50, figsize=(20,15)) # By setting bins=50, the dataset will be divided into 50 equal-width intervals, means whole graph has 50 tops
 plt.savefig('housing_plot01.png')
